@@ -195,6 +195,7 @@ select:focus { border-color: var(--accent); }
 .fuel { font-size: 11px; padding: 1px 8px; border-radius: 999px; background: var(--surface-2); border: 1px solid var(--border); }
 .fuel.hybrid { color: var(--good); }
 .fuel.diesel { color: #38bdf8; }
+.fuel.electric { color: #a78bfa; }
 
 .inline-controls { display: flex; gap: 8px; flex-wrap: wrap; }
 .inline-controls select { padding: 5px 8px; font-size: 13px; }

@@ -18,6 +18,11 @@ import { mergeReleases } from './merge.ts'
 import { RELEASES } from './releases/index.ts'
 import { slugify } from './slug.ts'
 import { bmw } from './brands/bmw.ts'
+import { byd } from './brands/byd.ts'
+import { chery } from './brands/chery.ts'
+import { gwm } from './brands/gwm.ts'
+import { jaecoo } from './brands/jaecoo.ts'
+import { tesla } from './brands/tesla.ts'
 import { cadillac } from './brands/cadillac.ts'
 import { changan } from './brands/changan.ts'
 import { chevrolet } from './brands/chevrolet.ts'
@@ -75,6 +80,11 @@ export const BASE_BRANDS: BrandData[] = [
   haval,
   changan,
   geely,
+  gwm,
+  chery,
+  jaecoo,
+  byd,
+  tesla,
 ]
 
 /** Full catalog = brand files + every release batch. Seeds the DB and the static fallback. */
@@ -83,7 +93,7 @@ export const BRANDS: BrandData[] = mergeReleases(BASE_BRANDS, RELEASES)
 /** Newest of the brand-file review date and the latest release batch id. */
 export const DATA_LAST_UPDATED: string = [BASE_DATA_UPDATED, ...RELEASES.map((r) => r.id.slice(0, 7))].sort().at(-1)!
 
-export const FUELS: readonly string[] = ['petrol', 'diesel', 'hybrid']
+export const FUELS: readonly string[] = ['petrol', 'diesel', 'hybrid', 'electric']
 export const DRIVETRAINS: readonly string[] = ['4WD', 'AWD', 'RWD', 'FWD']
 export const PRICE_BASES: readonly string[] = ['new', 'used']
 export const BODY_TYPES: readonly string[] = ['SUV', 'Pickup']

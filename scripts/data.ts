@@ -175,9 +175,11 @@ function summary() {
 function warnings(list = vehicles): string[] {
   const w: string[] = []
   for (const v of list) {
-    if (v.horsepower > 900 || v.horsepower < 80) w.push(`${v.id}: horsepower ${v.horsepower} looks unusual`)
-    if (v.torqueNm > 1200 || v.torqueNm < 120) w.push(`${v.id}: torqueNm ${v.torqueNm} looks unusual`)
-    if (v.realWorldKmPerL > 20 || v.realWorldKmPerL < 3) w.push(`${v.id}: realWorldKmPerL ${v.realWorldKmPerL} looks unusual`)
+    // Electric: km/L is a petrol-energy equivalent (8.9 kWh = 1 L) and multi-motor outputs run higher.
+    const ev = v.fuel === 'electric'
+    if (v.horsepower > (ev ? 1100 : 900) || v.horsepower < 80) w.push(`${v.id}: horsepower ${v.horsepower} looks unusual`)
+    if (v.torqueNm > (ev ? 1600 : 1200) || v.torqueNm < 120) w.push(`${v.id}: torqueNm ${v.torqueNm} looks unusual`)
+    if (v.realWorldKmPerL > (ev ? 70 : 20) || v.realWorldKmPerL < (ev ? 20 : 3)) w.push(`${v.id}: realWorldKmPerL ${v.realWorldKmPerL} looks unusual`)
     if (v.priceAed < 10000 || v.priceAed > 3_000_000) w.push(`${v.id}: priceAed ${v.priceAed} looks unusual`)
     if (v.estimated === false && !v.source) w.push(`${v.id}: estimated=false but no source`)
   }

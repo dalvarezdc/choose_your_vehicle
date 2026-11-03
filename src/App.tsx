@@ -9,7 +9,7 @@ import { ComparePicker } from './components/ComparePicker'
 import { BarCard, HistoryCard, RadarCard, ScatterCard } from './components/Charts'
 
 const MAX_SELECTED = 4
-const FUELS: Fuel[] = ['petrol', 'diesel', 'hybrid']
+const FUELS: Fuel[] = ['petrol', 'diesel', 'hybrid', 'electric']
 const DEFAULT_SELECTED = ['nissan-patrol-y61-2015-super-safari', 'nissan-patrol-y62-2024-le-platinum', 'toyota-land-cruiser-j300-2025-gxr-twin-turbo']
 const aed = (n: number) => `AED ${n.toLocaleString('en-AE')}`
 const toggleIn = <T,>(s: Set<T>, x: T) => {

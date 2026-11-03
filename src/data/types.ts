@@ -8,7 +8,7 @@
  * year/trim variant, with brand/family/generation denormalised onto it.
  */
 
-export type Fuel = 'petrol' | 'diesel' | 'hybrid'
+export type Fuel = 'petrol' | 'diesel' | 'hybrid' | 'electric'
 export type Drivetrain = '4WD' | 'AWD' | 'RWD' | 'FWD'
 export type BodyType = 'SUV' | 'Pickup'
 /** `new` = dealer price when that model year was on sale new; `used` = today's UAE used-market ballpark. */
@@ -27,7 +27,7 @@ export interface VariantInput {
   priceBasis: PriceBasis
   horsepower: number
   torqueNm: number
-  /** Mixed UAE driving, A/C on. */
+  /** Mixed UAE driving, A/C on. Electric: petrol-energy equivalent (8.9 kWh = 1 L). Plug-in hybrid: charge-sustaining. */
   realWorldKmPerL: number
   /** 0–10, higher is better. */
   duneScore: number
