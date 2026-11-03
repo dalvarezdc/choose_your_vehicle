@@ -14,7 +14,15 @@
     "db:migrate": "node server/cli.ts migrate",
     "db:seed": "node server/cli.ts seed",
     "db:reset": "node server/cli.ts reset",
-    "db:status": "node server/cli.ts status"
+    "db:status": "node server/cli.ts status",
+    "data:validate": "node scripts/data.ts validate",
+    "data:summary": "node scripts/data.ts summary",
+    "data:template": "node scripts/data.ts template",
+    "data:import": "node scripts/data.ts import",
+    "data:update": "node scripts/data.ts validate && node server/cli.ts seed && node server/cli.ts status",
+    "db:query": "node server/cli.ts query",
+    "db:tables": "node server/cli.ts tables",
+    "db:export": "node server/cli.ts export"
   },
   "dependencies": {
     "@hono/node-server": "^2.1.6",

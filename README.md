@@ -60,21 +60,34 @@ pnpm run build && pnpm start     # or: make start -> http://localhost:8787
 
 ## Catalog
 
-86 year/trim variants · 26 model families · 11 brands (Nov 2026):
+138 year/trim variants · 57 model families · 24 brands (Nov 2026). Live counts: `make data-summary`.
 
 | Brand | Models (generations) |
 | --- | --- |
-| Nissan | Patrol (Y61, Y62, Y63), X-Terra (N50, D23-based) |
-| Toyota | Land Cruiser (J200, J300), Land Cruiser 70 (J79), Prado (J150, J250), Fortuner (AN50, AN160), 4Runner (N280, N500), Tundra (XK50, XK70) |
+| Nissan | Patrol (Y61, Y62, Y63), X-Terra (N50, D23-based), Pathfinder (R53), Navara PRO-4X (D23) |
+| Toyota | Land Cruiser (J200, J300), Land Cruiser 70 (J79), Prado (J150, J250), Fortuner (AN50, AN160), 4Runner (N280, N500), Tundra (XK50, XK70), Sequoia (XK80), Hilux (GLX 2.7, Adventure 4.0 V6) |
 | Lexus | LX (LX570, LX600), GX550 |
 | Infiniti | QX80 (Z62, Z63) |
-| Jeep | Wrangler (JK, JL incl. Sahara, Rubicon, Rubicon 392) |
+| Jeep | Wrangler (JK, JL incl. Sahara, Rubicon, Rubicon 392), Gladiator Rubicon, Grand Cherokee (WL) |
 | RAM | 1500 (DS, DT incl. Rebel, TRX, RHO) |
-| Ford | Ranger Raptor, F-150 Raptor / Raptor R, Bronco (Badlands, Raptor) |
+| Ford | Ranger Raptor, F-150 Raptor / Raptor R, Bronco (Badlands, Raptor), Everest (U704), Expedition (U553, U554 Tremor) |
 | GMC | Yukon (incl. AT4, Denali), Sierra 1500 (AT4, AT4X, Elevation), Canyon AT4X, Terrain AT4 |
-| Land Rover | Defender 110 |
+| Land Rover | Defender (110, 130, OCTA), Range Rover (L460), Range Rover Sport (L461) |
 | Porsche | Cayenne (92A GTS, 9YA base / S / E-Hybrid / Turbo GT) |
 | Jetour (petrol) | T2, T1, X90 Plus, X70 Plus |
+| Chevrolet | Tahoe (GMTK2UC, T1UC incl. Z71, High Country), Suburban, Silverado 1500 (Trail Boss, ZR2) |
+| Cadillac | Escalade (incl. Escalade-V) |
+| Mitsubishi | Pajero (V90), Montero Sport |
+| Isuzu | MU-X, D-Max V-Cross |
+| Mercedes-Benz | G-Class (W463A: G 500 V8 / I6, AMG G 63), GLE 450 |
+| BMW | X5 xDrive40i, X7 (xDrive40i, M60i) |
+| Volkswagen | Touareg (2.0 TSI, 3.0 V6) |
+| Hyundai | Palisade (LX2, LX3) |
+| Kia | Mohave, Telluride |
+| Tank (GWM) | Tank 300 (2.0T, Hybrid), Tank 500 (3.0T V6) |
+| Haval (GWM) | H9 (2nd gen) |
+| Changan | CS95 |
+| Geely | Monjaro (AWD crossover, kept for price comparison) |
 
 **All figures are UAE ballpark estimates** (`estimated: true` on every record) for comparison,
 not quotes. `priceBasis: 'new'` = dealer price for that model year when new;
@@ -112,15 +125,54 @@ export const nissan: BrandData = {
 `nissan-patrol-y61-2015-super-safari`, and **validates** it on every build/seed: duplicate ids,
 a year outside its generation's range, scores outside 0–10 and non-positive specs all fail.
 
-### Updating the data (every ~6 months)
+### Updating the data
+
+Two paths. Both end with the same validation and DB reseed, and both feed the
+**"data updated …"** date in the dashboard header (`DATA_LAST_UPDATED` = newest of
+`BASE_DATA_UPDATED` in `src/data/index.ts` and the latest release batch id).
+
+**A. Monthly releases (new models / model years / price corrections) — no code editing**
+
+```bash
+make data-template                         # writes data/releases/TEMPLATE.csv (+ .json)
+cp data/releases/TEMPLATE.csv data/releases/2026-12.csv
+# fill in one row per new year/trim (delete the EXAMPLE row)
+make data-update FILE=data/releases/2026-12.csv DRY=1               # validate only, writes nothing
+make data-update FILE=data/releases/2026-12.csv NOTES="Dec releases" # import + reseed
+make restart                               # only if the background server (make up) is running
+```
+
+What `data-update FILE=…` does (`scripts/data.ts`):
+
+1. Parses the CSV or JSON (`[ {...}, ... ]` or `{ "rows": [...] }`), coerces numbers
+   (`"340,000"` is fine) and rejects unknown columns or missing required fields.
+2. Applies the rows on top of the whole catalog and runs the same validation as the build:
+   duplicate ids, year outside the generation, enums (`fuel`, `drivetrain`, `priceBasis`,
+   `bodyType`), scores 0–10, specs > 0. Unusual numbers (e.g. 2 km/L) are printed as warnings.
+3. Writes `src/data/releases/<id>.ts` (id defaults to the current month, `ID=2026-12` to set
+   it; re-importing into the same id appends), regenerates `src/data/releases/index.ts` and
+   appends an entry to `data/CHANGELOG.md`.
+4. Reseeds `data/vehicles.db` and prints `db-status`.
+
+Row rules: brand / model (`family`) / `generation` are matched by name. If one doesn't exist
+yet it's created, and then `country` (new brand), `bodyType` (new model) and
+`generationStart` (new generation) are required. An existing year + trim is rejected unless
+the row has `replace=true` (use that for price/spec corrections). Set `estimated=false` only
+with a `source`. To drop a bad batch, delete its file and its line in
+`src/data/releases/index.ts`.
+
+**B. Larger edits — edit the brand files**
 
 1. Edit `src/data/brands/*.ts`. For a new model year, **add a new variant** rather than
    overwriting the old one, so year-over-year comparison keeps working. New generation → new
    `generations` entry; new model → new `families` entry; new brand → new file, then add it
-   to `BRANDS` in `src/data/index.ts`.
-2. Bump `DATA_LAST_UPDATED` in `src/data/index.ts`.
-3. `make check` (lint, type-check, build, rebuild the DB). The running server also reseeds by
-   itself on restart when the data changed (it stores a hash of the data in the DB).
+   to `BASE_BRANDS` in `src/data/index.ts`.
+2. Bump `BASE_DATA_UPDATED` in `src/data/index.ts` and add an entry to `data/CHANGELOG.md`.
+3. `make data-update` (validate + reseed) or `make check` (lint, validate, type-check, build,
+   rebuild the DB). The running server also reseeds itself on restart when the data changed
+   (it stores a hash of the data in the DB).
+
+Other helpers: `make data-validate` (no writes), `make data-summary` (counts per brand).
 
 ## API
 
@@ -179,6 +231,18 @@ CHECK constraints guard enums and 0–10 scores.
 | `pnpm run db:seed` | `make db-seed` | reload the catalog from `src/data` (one transaction) |
 | `pnpm run db:reset` | `make db-reset` | delete the DB file, migrate and seed |
 | `pnpm run db:status` | `make db-status` | applied migrations + dataset counts |
+| `pnpm run db:tables` | `make db-tables` | every table/view with row counts + the flat view's columns |
+| `pnpm run db:query -- "SQL"` | `make db-query SQL="…" [JSON=1]` | one **read-only** SQL statement (table or JSON) |
+| `pnpm run db:export` | `make db-export` | full catalog → `data/export/variants.json` + `.csv` |
+| — | `make db-shell` | interactive `sqlite3` shell (needs the sqlite3 CLI; macOS has it) |
+
+Examples:
+
+```bash
+make db-query SQL="SELECT brand, COUNT(*) AS variants FROM variant_details GROUP BY brand ORDER BY variants DESC"
+make db-query SQL="SELECT id, model_year, trim, price_aed, horsepower FROM variant_details WHERE family = 'Patrol' ORDER BY model_year"
+make db-query SQL="SELECT * FROM variants WHERE id = 'nissan-patrol-y62-2024-le-platinum'" JSON=1
+```
 
 The DB file is `data/vehicles.db` (git-ignored; it's rebuilt from `src/data`). Override with
 `DATABASE_PATH=/some/path.db`. Inspect it with any SQLite tool, e.g.
@@ -193,7 +257,7 @@ and each is applied once (tracked in `schema_migrations`).
 
 ## Growth path: moving to hosted Postgres later
 
-Local SQLite is the right size today (86 rows; it is comfortable into the hundreds of thousands).
+Local SQLite is the right size today (~140 rows; it is comfortable into the hundreds of thousands).
 Move when you need several writers, an admin UI that edits data online, or the API hosted
 somewhere without a persistent disk.
 
@@ -225,21 +289,67 @@ Hosting options (from Daniel's research; check current pricing before signing up
 
 ## Makefile shortcuts
 
-`make help` lists everything. All targets call pnpm.
+`make help` lists everything, grouped. All targets call pnpm.
+
+**Run & build**
 
 | Command | What it does |
 | --- | --- |
 | `make install` | `pnpm install --frozen-lockfile` |
-| `make dev` | dev server + API on http://localhost:5173 |
+| `make dev` | dev server + API on http://localhost:5173 (foreground, hot reload) |
 | `make build` | type-check and build `dist` |
-| `make start` | build, then serve dashboard + API on http://localhost:8787 |
+| `make start` | build, then serve dashboard + API on http://localhost:8787 (foreground) |
+| `make api` | API (+ `dist` if built) on :8787 with auto-restart on code changes (foreground) |
 | `make preview` | static preview of `dist` (no API → static snapshot) on :4173 |
-| `make lint` / `make typecheck` | oxlint / TypeScript (app + server) |
-| `make check` | lint + type-check + build + rebuild the DB |
-| `make db-migrate` / `db-seed` / `db-reset` / `db-status` | database commands |
-| `make clean` | remove `dist`, the local DB and `node_modules` |
+
+**Middleware in the background** (so you can keep querying it from the same terminal)
+
+| Command | What it does |
+| --- | --- |
+| `make up` | build, start dashboard + API in the background on :8787, wait for `/api/health` (pid + log in `.run/`) |
+| `make down` / `make restart` | stop / restart it |
+| `make logs` | follow `.run/server.log` |
+| `make server-status` | running? + `/api/health` |
+
+**Query the API** (default `API_URL=http://localhost:8787/api`; with `make dev` use
+`API_URL=http://localhost:5173/api`). Output is pretty-printed with `jq` when installed.
+
+| Command | Endpoint |
+| --- | --- |
+| `make api-index` | `GET /api` (endpoint list) |
+| `make api-health` / `api-meta` | `/api/health`, `/api/meta` (counts, year range, last update) |
+| `make api-brands` / `api-years` | `/api/brands`, `/api/years` |
+| `make api-models [BRAND=toyota]` | `/api/models?brand=` |
+| `make api-model MODEL=nissan-patrol` | `/api/models/:familySlug` (every year/trim) |
+| `make api-variants Q='brand=toyota&yearFrom=2020&sort=price&order=asc&limit=5'` | `/api/variants?…` |
+| `make api-variant ID=nissan-patrol-y62-2024-le-platinum` | `/api/variants/:id` |
+| `make api-raw ID=nissan-patrol-y62-2024-le-platinum` | `/api/variants/:id/raw` (raw DB row) |
+| `make api-query P='variants?fuel=diesel&limit=3'` | any path under `/api` |
+
+**Database, data and checks**
+
+| Command | What it does |
+| --- | --- |
+| `make db-tables` / `db-query SQL=…` / `db-export` / `db-shell` | inspect the full DB directly (no server needed) |
+| `make db-migrate` / `db-seed` / `db-reset` / `db-status` | DB lifecycle |
+| `make data-template` / `data-import FILE=…` / `data-update [FILE=…]` | monthly data updates (see above) |
+| `make data-validate` / `data-summary` | check / count the catalog |
+| `make lint` / `make typecheck` | oxlint / TypeScript (app + server + scripts) |
+| `make check` | lint + validate data + type-check + build + rebuild the DB |
+| `make clean` | stop the background server; remove `dist`, the DB, exports, `.run/`, `node_modules` |
 | `make docker-build` / `docker-run` | Node image: dashboard + API + SQLite on :8787 |
 | `make docker-build-static` / `docker-run-static` | nginx image: dashboard only on :8080 |
+
+Typical "check the full database" session:
+
+```bash
+make up                         # dashboard + API on http://localhost:8787
+make api-meta                   # counts + last update
+make api-brands
+make api-model MODEL=toyota-land-cruiser
+make db-export                  # everything to data/export/variants.{json,csv}
+make down
+```
 
 ## Docker
 
@@ -271,7 +381,9 @@ docker run --rm -p 8787:8787 -v cyv-data:/app/data choose-your-vehicle   # -> ht
 ```
 src/
   data/brands/*.ts        <- the catalog, one file per brand (edit these)
-  data/index.ts           <- DATA_LAST_UPDATED, brand list, flatten + validate
+  data/index.ts           <- BASE_DATA_UPDATED / DATA_LAST_UPDATED, brand list, flatten + validate
+  data/releases/*.ts      <- monthly release batches (generated by data:import)
+  data/merge.ts           <- applies release batches on top of the brand files
   data/types.ts           <- data shapes
   lib/api.ts              <- loads data from /api, falls back to the bundled snapshot
   lib/metrics.ts          <- metric labels, units, formatting, "best value" logic
@@ -284,9 +396,14 @@ server/
   repo.ts                 <- VehicleRepo interface + SQLite implementation
   db.ts, bootstrap.ts     <- connection, migrations runner, init
   seed.ts                 <- src/data -> DB
-  cli.ts                  <- db:migrate / db:seed / db:reset / db:status
+  cli.ts                  <- db:migrate / seed / reset / status / tables / query / export
   index.ts                <- production server (API + dist)
   dev-handler.ts          <- API inside the Vite dev server
   migrations/sqlite/*.sql, migrations/postgres/*.sql
+scripts/data.ts           <- data:validate / summary / template / import (monthly updates)
 data/vehicles.db          <- local SQLite (git-ignored, rebuilt from src/data)
+data/CHANGELOG.md         <- what changed in the data, per release / edit
+data/releases/TEMPLATE.*  <- CSV / JSON templates for new releases
+data/export/              <- make db-export output (git-ignored)
+.run/                     <- make up pid + log (git-ignored)
 ```

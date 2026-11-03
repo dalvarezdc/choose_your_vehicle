@@ -1,0 +1,31 @@
+{
+  "rows": [
+    {
+      "brand": "Nissan",
+      "country": "Japan",
+      "family": "Patrol",
+      "bodyType": "SUV",
+      "generation": "Y63",
+      "generationStart": 2025,
+      "generationEnd": null,
+      "year": 2027,
+      "trim": "EXAMPLE — delete this row",
+      "engine": "3.5L twin-turbo V6 (VR35DDTT)",
+      "fuel": "petrol",
+      "drivetrain": "4WD",
+      "transmission": "9-speed automatic",
+      "priceAed": 300000,
+      "priceBasis": "new",
+      "horsepower": 425,
+      "torqueNm": 700,
+      "realWorldKmPerL": 7.5,
+      "duneScore": 8.5,
+      "maintenanceScore": 7.5,
+      "overallScore": 8.5,
+      "estimated": true,
+      "source": "https://example.com/spec-sheet",
+      "notes": "",
+      "replace": false
+    }
+  ]
+}

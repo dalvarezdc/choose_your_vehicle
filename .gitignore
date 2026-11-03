@@ -26,3 +26,7 @@ dist-ssr
 # Local SQLite database (rebuilt from src/data by `pnpm run db:seed`)
 data/*.db
 data/*.db-*
+
+# Background server (make up) and DB exports (make db-export)
+.run/
+data/export/

@@ -94,3 +94,31 @@ export interface Vehicle {
   source: string | null
   notes: string | null
 }
+
+/**
+ * One row of a monthly data release (see src/data/releases and `pnpm run data:import`).
+ * Flat on purpose so it maps 1:1 onto a CSV line. Brand / family / generation are
+ * matched by name (case-insensitive) and created when missing — then `country`,
+ * `bodyType` and `generationStart` are required.
+ */
+export interface ReleaseRow extends VariantInput {
+  brand: string
+  country?: string
+  family: string
+  bodyType?: BodyType
+  /** Generation code, e.g. "Y63". */
+  generation: string
+  generationStart?: number
+  generationEnd?: number | null
+  /** `true` = overwrite the existing variant with the same year + trim (price/spec corrections). */
+  replace?: boolean
+}
+
+export interface ReleaseBatch {
+  /** "YYYY-MM" (optionally "YYYY-MM-suffix"). Also drives DATA_LAST_UPDATED. */
+  id: string
+  /** ISO date the batch was imported. */
+  importedAt: string
+  notes?: string
+  rows: ReleaseRow[]
+}
