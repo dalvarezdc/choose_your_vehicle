@@ -1,6 +1,7 @@
 import type { BrandData } from '../types.ts'
 
 // Toyota — UAE ballpark figures (estimated).
+// Hilux 8th-gen (AN120/AN130) 4.0L 1GR-FE: 235 hp / 376 Nm per Al-Futtaim Toyota UAE / GCC spec.
 export const toyota: BrandData = {
   brand: 'Toyota',
   country: 'Japan',
@@ -177,15 +178,15 @@ export const toyota: BrandData = {
           yearEnd: null,
           variants: [
             { year: 2016, trim: 'GLX 2.7 Double Cab 4x4', engine: '2.7L I4 (2TR-FE)', fuel: 'petrol', drivetrain: '4WD', transmission: '6-speed manual', priceAed: 52000, priceBasis: 'used', horsepower: 164, torqueNm: 245, realWorldKmPerL: 8.8, duneScore: 6.0, maintenanceScore: 9.5, overallScore: 6.8 },
-            { year: 2018, trim: 'GLXS-V 4.0 V6', engine: '4.0L V6 (1GR-FE)', fuel: 'petrol', drivetrain: '4WD', transmission: '6-speed automatic', priceAed: 72000, priceBasis: 'used', horsepower: 228, torqueNm: 376, realWorldKmPerL: 7.2, duneScore: 7.5, maintenanceScore: 9.0, overallScore: 7.3 },
+            { year: 2018, trim: 'GLXS-V 4.0 V6', engine: '4.0L V6 (1GR-FE)', fuel: 'petrol', drivetrain: '4WD', transmission: '6-speed automatic', priceAed: 72000, priceBasis: 'used', horsepower: 235, torqueNm: 376, realWorldKmPerL: 7.2, duneScore: 7.5, maintenanceScore: 9.0, overallScore: 7.3 },
             { year: 2019, trim: 'GL 2.4D Double Cab 4x4', engine: '2.4L turbo-diesel I4 (2GD-FTV)', fuel: 'diesel', drivetrain: '4WD', transmission: '6-speed manual', priceAed: 65000, priceBasis: 'used', horsepower: 148, torqueNm: 400, realWorldKmPerL: 11.0, duneScore: 6.0, maintenanceScore: 8.5, overallScore: 6.8, notes: 'Mostly fleet/commercial spec in the UAE.' },
-            { year: 2021, trim: 'Adventure 4.0 V6', engine: '4.0L V6 (1GR-FE)', fuel: 'petrol', drivetrain: '4WD', transmission: '6-speed automatic', priceAed: 105000, priceBasis: 'used', horsepower: 228, torqueNm: 376, realWorldKmPerL: 7.4, duneScore: 7.5, maintenanceScore: 9.0, overallScore: 7.5, notes: 'Facelift year; Adventure adds wide-body styling and rear locker.' },
+            { year: 2021, trim: 'Adventure 4.0 V6', engine: '4.0L V6 (1GR-FE)', fuel: 'petrol', drivetrain: '4WD', transmission: '6-speed automatic', priceAed: 105000, priceBasis: 'used', horsepower: 235, torqueNm: 376, realWorldKmPerL: 7.4, duneScore: 7.5, maintenanceScore: 9.0, overallScore: 7.5, notes: 'Facelift year; Adventure adds wide-body styling and rear locker.' },
             { year: 2022, trim: 'GLX-S 2.7 Double Cab 4x4', engine: '2.7L I4 (2TR-FE)', fuel: 'petrol', drivetrain: '4WD', transmission: '6-speed automatic', priceAed: 82000, priceBasis: 'used', horsepower: 164, torqueNm: 245, realWorldKmPerL: 9.0, duneScore: 6.0, maintenanceScore: 9.5, overallScore: 7.0 },
             { year: 2023, trim: 'GLX 2.7 Double Cab 4x4', engine: '2.7L I4 (2TR-FE)', fuel: 'petrol', drivetrain: '4WD', transmission: '6-speed automatic', priceAed: 105000, priceBasis: 'new', horsepower: 164, torqueNm: 245, realWorldKmPerL: 9.0, duneScore: 6.0, maintenanceScore: 9.5, overallScore: 7.0 },
-            { year: 2024, trim: 'Adventure 4.0 V6', engine: '4.0L V6 (1GR-FE)', fuel: 'petrol', drivetrain: '4WD', transmission: '6-speed automatic', priceAed: 155000, priceBasis: 'new', horsepower: 228, torqueNm: 376, realWorldKmPerL: 7.5, duneScore: 7.5, maintenanceScore: 9.0, overallScore: 7.6 },
-            { year: 2025, trim: 'GR Sport 4.0 V6', engine: '4.0L V6 (1GR-FE)', fuel: 'petrol', drivetrain: '4WD', transmission: '6-speed automatic', priceAed: 175000, priceBasis: 'new', horsepower: 228, torqueNm: 376, realWorldKmPerL: 7.3, duneScore: 8.0, maintenanceScore: 8.5, overallScore: 7.8, notes: 'Wider track and monotube dampers vs Adventure.' },
+            { year: 2024, trim: 'Adventure 4.0 V6', engine: '4.0L V6 (1GR-FE)', fuel: 'petrol', drivetrain: '4WD', transmission: '6-speed automatic', priceAed: 155000, priceBasis: 'new', horsepower: 235, torqueNm: 376, realWorldKmPerL: 7.5, duneScore: 7.5, maintenanceScore: 9.0, overallScore: 7.6 },
+            { year: 2025, trim: 'GR Sport 4.0 V6', engine: '4.0L V6 (1GR-FE)', fuel: 'petrol', drivetrain: '4WD', transmission: '6-speed automatic', priceAed: 175000, priceBasis: 'new', horsepower: 235, torqueNm: 376, realWorldKmPerL: 7.3, duneScore: 8.0, maintenanceScore: 8.5, overallScore: 7.8, notes: 'Wider track and monotube dampers vs Adventure.' },
             { year: 2025, trim: 'SR5 2.7 Double Cab 4x4', engine: '2.7L I4 (2TR-FE)', fuel: 'petrol', drivetrain: '4WD', transmission: '6-speed automatic', priceAed: 112000, priceBasis: 'new', horsepower: 164, torqueNm: 245, realWorldKmPerL: 9.0, duneScore: 6.0, maintenanceScore: 9.5, overallScore: 7.1 },
-            { year: 2026, trim: 'Adventure 4.0 V6', engine: '4.0L V6 (1GR-FE)', fuel: 'petrol', drivetrain: '4WD', transmission: '6-speed automatic', priceAed: 162000, priceBasis: 'new', horsepower: 228, torqueNm: 376, realWorldKmPerL: 7.5, duneScore: 7.5, maintenanceScore: 9.0, overallScore: 7.6 },
+            { year: 2026, trim: 'Adventure 4.0 V6', engine: '4.0L V6 (1GR-FE)', fuel: 'petrol', drivetrain: '4WD', transmission: '6-speed automatic', priceAed: 155900, priceBasis: 'new', horsepower: 235, torqueNm: 376, realWorldKmPerL: 7.5, duneScore: 7.5, maintenanceScore: 9.0, overallScore: 7.6, source: 'UAE 4.0 V6 = 235 hp / 376 Nm (Al-Futtaim Toyota UAE spec, carprices.ae). Price: carprices.ae AED 155,900 (ArabWheels ex-factory AED 153,900), Nov 2026.' },
           ],
         },
       ],
