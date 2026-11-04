@@ -1,8 +1,8 @@
 import { useMemo, useState } from 'react'
-import type { Fuel, Vehicle } from './data/types'
+import type { Drivetrain, Fuel, Vehicle } from './data/types'
 import { useCatalog } from './lib/api'
 import { useTheme, THEME_COLORS } from './lib/theme'
-import { BAR_METRICS, metricByKey, type NumericKey } from './lib/metrics'
+import { BAR_METRICS, DRIVETRAINS, DRIVE_HINT, DRIVE_LABEL, metricByKey, type NumericKey } from './lib/metrics'
 import { VehicleTable, type SortKey, type SortState } from './components/VehicleTable'
 import { CompareCards } from './components/CompareCards'
 import { ComparePicker } from './components/ComparePicker'
@@ -54,6 +54,7 @@ function Dashboard({ all, lastUpdated, source }: { all: Vehicle[]; lastUpdated: 
   const [brands, setBrands] = useState<Set<string>>(new Set())
   const [family, setFamily] = useState('')
   const [fuels, setFuels] = useState<Set<Fuel>>(new Set())
+  const [drives, setDrives] = useState<Set<Drivetrain>>(new Set())
   const [yearFrom, setYearFrom] = useState(bounds.yearMin)
   const [yearTo, setYearTo] = useState(bounds.yearMax)
   const [priceMode, setPriceMode] = useState<'all' | 'new' | 'used'>('all')
@@ -73,6 +74,7 @@ function Dashboard({ all, lastUpdated, source }: { all: Vehicle[]; lastUpdated: 
         (brands.size === 0 || brands.has(v.brand)) &&
         (!family || v.familySlug === family) &&
         (fuels.size === 0 || fuels.has(v.fuel)) &&
+        (drives.size === 0 || drives.has(v.drivetrain)) &&
         v.year >= yearFrom &&
         v.year <= yearTo &&
         (priceMode === 'all' || v.priceBasis === priceMode) &&
@@ -86,7 +88,7 @@ function Dashboard({ all, lastUpdated, source }: { all: Vehicle[]; lastUpdated: 
       if (sort.key === 'year') return dir * (a.year - b.year) || b.overallScore - a.overallScore
       return dir * (a[sort.key] - b[sort.key])
     })
-  }, [all, query, brands, family, fuels, yearFrom, yearTo, priceMode, maxPrice, minDune, sort])
+  }, [all, query, brands, family, fuels, drives, yearFrom, yearTo, priceMode, maxPrice, minDune, sort])
 
   const byId = useMemo(() => new Map(all.map((v) => [v.id, v])), [all])
   const selectedIds = useMemo(() => new Set(selected), [selected])
@@ -109,6 +111,7 @@ function Dashboard({ all, lastUpdated, source }: { all: Vehicle[]; lastUpdated: 
     setBrands(new Set())
     setFamily('')
     setFuels(new Set())
+    setDrives(new Set())
     setYearFrom(bounds.yearMin)
     setYearTo(bounds.yearMax)
     setPriceMode('all')
@@ -116,7 +119,7 @@ function Dashboard({ all, lastUpdated, source }: { all: Vehicle[]; lastUpdated: 
     setMinDune(0)
   }
   const filtersActive =
-    query || brands.size || family || fuels.size || yearFrom !== bounds.yearMin || yearTo !== bounds.yearMax ||
+    query || brands.size || family || fuels.size || drives.size || yearFrom !== bounds.yearMin || yearTo !== bounds.yearMax ||
     priceMode !== 'all' || maxPrice !== bounds.priceMax || minDune > 0
 
   const top3 = () => setSelected(filtered.slice().sort((a, b) => b.overallScore - a.overallScore).slice(0, 3).map((v) => v.id))
@@ -193,6 +196,16 @@ function Dashboard({ all, lastUpdated, source }: { all: Vehicle[]; lastUpdated: 
             {FUELS.filter((f) => all.some((v) => v.fuel === f)).map((f) => (
               <button key={f} className={`chip ${fuels.has(f) ? 'on' : ''}`} aria-pressed={fuels.has(f)} onClick={() => setFuels((s) => toggleIn(s, f))}>
                 {f}
+              </button>
+            ))}
+          </div>
+        </div>
+        <div className="field">
+          <span>Drivetrain</span>
+          <div className="chips">
+            {DRIVETRAINS.filter((d) => all.some((v) => v.drivetrain === d)).map((d) => (
+              <button key={d} className={`chip ${drives.has(d) ? 'on' : ''}`} aria-pressed={drives.has(d)} title={DRIVE_HINT[d]} onClick={() => setDrives((s) => toggleIn(s, d))}>
+                {DRIVE_LABEL[d]}
               </button>
             ))}
           </div>

@@ -1,3 +1,3 @@
 # One row per new year/trim. Lines starting with # are ignored. Optional: country, bodyType, generationStart/End (only for NEW brand/model/generation), transmission, estimated, source, notes, replace.
-brand,country,family,bodyType,generation,generationStart,generationEnd,year,trim,engine,fuel,drivetrain,transmission,priceAed,priceBasis,horsepower,torqueNm,realWorldKmPerL,duneScore,maintenanceScore,overallScore,estimated,source,notes,replace
-Nissan,Japan,Patrol,SUV,Y63,2025,,2027,EXAMPLE — delete this row,3.5L twin-turbo V6 (VR35DDTT),petrol,4WD,9-speed automatic,300000,new,425,700,7.5,8.5,7.5,8.5,true,https://example.com/spec-sheet,,false
+brand,country,family,bodyType,generation,generationStart,generationEnd,year,trim,engine,fuel,drivetrain,transmission,priceAed,priceBasis,horsepower,torqueNm,curbWeightKg,realWorldKmPerL,duneScore,maintenanceScore,overallScore,estimated,source,notes,replace
+Nissan,Japan,Patrol,SUV,Y63,2025,,2027,EXAMPLE — delete this row,3.5L twin-turbo V6 (VR35DDTT),petrol,4WD,9-speed automatic,300000,new,425,700,2700,7.5,8.5,7.5,8.5,true,https://example.com/spec-sheet,,false

@@ -60,6 +60,8 @@ export const SORT_COLUMNS: Record<string, string> = {
   priceAed: 'price_aed',
   horsepower: 'horsepower',
   torqueNm: 'torque_nm',
+  curbWeightKg: 'curb_weight_kg',
+  weight: 'curb_weight_kg',
   realWorldKmPerL: 'km_per_l',
   duneScore: 'dune_score',
   maintenanceScore: 'maintenance_score',
@@ -90,6 +92,7 @@ interface DetailRow {
   price_basis: Vehicle['priceBasis']
   horsepower: number
   torque_nm: number
+  curb_weight_kg: number
   km_per_l: number
   dune_score: number
   maintenance_score: number
@@ -119,6 +122,7 @@ export const toVehicle = (r: DetailRow): Vehicle => ({
   priceBasis: r.price_basis,
   horsepower: Number(r.horsepower),
   torqueNm: Number(r.torque_nm),
+  curbWeightKg: Number(r.curb_weight_kg),
   realWorldKmPerL: Number(r.km_per_l),
   duneScore: Number(r.dune_score),
   maintenanceScore: Number(r.maintenance_score),

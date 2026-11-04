@@ -45,13 +45,16 @@ pnpm run build && pnpm start     # or: make start -> http://localhost:8787
 
 - **Year/trim-aware compare:** pick *Model → Year → Generation · trim · engine* and add it
   (up to 4). Cards show year, generation, engine, fuel, drivetrain, whether the price is a
-  **new** or **used-today** price, and an **Estimated** tag.
+  **new** or **used-today** price, a **4x4** (low-range 4WD) or **AWD** tag, and an
+  **Estimated** tag.
 - **Model history by year:** one metric (HP, torque, price, km/L, scores) across model years
   for one model family, one line per generation + engine (e.g. Patrol Y61 TB48 → Y62 V8 → Y63
   twin-turbo). Click a point to add that year to the comparison.
-- **Filters:** search, model, model-year range, brand, fuel, new/used price basis, max price,
-  min dune score.
-- **Table:** one row per year/trim variant, sortable by vehicle, year and every metric;
+- **Filters:** search, model, model-year range, brand, fuel, drivetrain (4x4 = low-range
+  `4WD`, `AWD` = on-demand/road AWD, `RWD`, `FWD`), new/used price basis, max price, min dune
+  score.
+- **Table:** one row per year/trim variant with a drive tag and curb weight (kg), sortable by
+  vehicle, year and every metric;
   `≈` marks estimated figures, `u` marks used-market prices.
 - Radar score profile, value map (click a dot to compare), bar charts (your selection, or top 15
   of the filtered list), dark/light theme, responsive.
@@ -107,9 +110,9 @@ export const nissan: BrandData = {
       code: 'Y61', yearStart: 1997, yearEnd: 2024,        // yearEnd: null = still on sale
       variants: [{
         year: 2015, trim: 'Super Safari', engine: '4.8L I6 (TB48DE)',
-        fuel: 'petrol', drivetrain: '4WD', transmission: '5-speed manual',
+        fuel: 'petrol', drivetrain: '4WD', transmission: '5-speed manual', // 4WD = low-range 4x4; AWD = no low range
         priceAed: 115000, priceBasis: 'used',
-        horsepower: 280, torqueNm: 451, realWorldKmPerL: 5.3,
+        horsepower: 280, torqueNm: 451, curbWeightKg: 2350, realWorldKmPerL: 5.3,
         duneScore: 9.5, maintenanceScore: 9.5, overallScore: 8.3,
         // estimated defaults to true; set false only with a `source`
         // estimated: false, source: 'Al-Masaood price list 2026-05',
@@ -193,7 +196,7 @@ Read-only JSON. `GET /api` lists everything.
 `/api/variants` query params (lists are comma-separated): `brand`, `family` (slug, e.g.
 `nissan-patrol`), `generation`, `year`, `yearFrom`, `yearTo`, `fuel`, `drivetrain`,
 `bodyType`, `priceMax`, `minDune`, `q` (free text), `sort` (`year`, `price`, `horsepower`,
-`torqueNm`, `realWorldKmPerL`, `duneScore`, `maintenanceScore`, `overallScore`, `brand`,
+`torqueNm`, `curbWeightKg` (alias `weight`), `realWorldKmPerL`, `duneScore`, `maintenanceScore`, `overallScore`, `brand`,
 `family`), `order` (`asc`/`desc`), `limit` (max 1000, default 200), `offset`.
 
 ```bash
@@ -212,7 +215,7 @@ model_families  (id, brand_id → brands, slug UNIQUE, name, body_type)       UN
 generations     (id, family_id → model_families, code, year_start, year_end) UNIQUE(family_id, code)
 variants        (id TEXT PK, generation_id → generations, model_year, trim, engine, fuel,
                  drivetrain, transmission, price_aed, price_basis, horsepower, torque_nm,
-                 km_per_l, dune_score, maintenance_score, overall_score,
+                 curb_weight_kg, km_per_l, dune_score, maintenance_score, overall_score,
                  estimated, source, notes)                       UNIQUE(generation_id, model_year, trim)
 dataset_meta    (key PK, value)       -- last_updated, data_hash, seeded_at
 schema_migrations (version PK, applied_at)

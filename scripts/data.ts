@@ -25,11 +25,11 @@ const TEMPLATE_DIR = join(ROOT, 'data', 'releases')
 const COLUMNS = [
   'brand', 'country', 'family', 'bodyType', 'generation', 'generationStart', 'generationEnd',
   'year', 'trim', 'engine', 'fuel', 'drivetrain', 'transmission', 'priceAed', 'priceBasis',
-  'horsepower', 'torqueNm', 'realWorldKmPerL', 'duneScore', 'maintenanceScore', 'overallScore',
+  'horsepower', 'torqueNm', 'curbWeightKg', 'realWorldKmPerL', 'duneScore', 'maintenanceScore', 'overallScore',
   'estimated', 'source', 'notes', 'replace',
 ] as const
-const REQUIRED = ['brand', 'family', 'generation', 'year', 'trim', 'engine', 'fuel', 'drivetrain', 'priceAed', 'priceBasis', 'horsepower', 'torqueNm', 'realWorldKmPerL', 'duneScore', 'maintenanceScore', 'overallScore'] as const
-const NUMERIC = new Set(['generationStart', 'generationEnd', 'year', 'priceAed', 'horsepower', 'torqueNm', 'realWorldKmPerL', 'duneScore', 'maintenanceScore', 'overallScore'])
+const REQUIRED = ['brand', 'family', 'generation', 'year', 'trim', 'engine', 'fuel', 'drivetrain', 'priceAed', 'priceBasis', 'horsepower', 'torqueNm', 'curbWeightKg', 'realWorldKmPerL', 'duneScore', 'maintenanceScore', 'overallScore'] as const
+const NUMERIC = new Set(['generationStart', 'generationEnd', 'year', 'priceAed', 'horsepower', 'torqueNm', 'curbWeightKg', 'realWorldKmPerL', 'duneScore', 'maintenanceScore', 'overallScore'])
 const BOOLEAN = new Set(['estimated', 'replace'])
 
 const args = process.argv.slice(2).filter((a) => a !== '--')
@@ -180,6 +180,7 @@ function warnings(list = vehicles): string[] {
     if (v.horsepower > (ev ? 1100 : 900) || v.horsepower < 80) w.push(`${v.id}: horsepower ${v.horsepower} looks unusual`)
     if (v.torqueNm > (ev ? 1600 : 1200) || v.torqueNm < 120) w.push(`${v.id}: torqueNm ${v.torqueNm} looks unusual`)
     if (v.realWorldKmPerL > (ev ? 70 : 20) || v.realWorldKmPerL < (ev ? 20 : 3)) w.push(`${v.id}: realWorldKmPerL ${v.realWorldKmPerL} looks unusual`)
+    if (v.curbWeightKg < 1200 || v.curbWeightKg > 4000) w.push(`${v.id}: curbWeightKg ${v.curbWeightKg} looks unusual`)
     if (v.priceAed < 10000 || v.priceAed > 3_000_000) w.push(`${v.id}: priceAed ${v.priceAed} looks unusual`)
     if (v.estimated === false && !v.source) w.push(`${v.id}: estimated=false but no source`)
   }
@@ -231,7 +232,7 @@ function template() {
   const example: Record<string, unknown> = {
     brand: 'Nissan', country: 'Japan', family: 'Patrol', bodyType: 'SUV', generation: 'Y63', generationStart: 2025, generationEnd: '',
     year: 2027, trim: 'EXAMPLE — delete this row', engine: '3.5L twin-turbo V6 (VR35DDTT)', fuel: 'petrol', drivetrain: '4WD',
-    transmission: '9-speed automatic', priceAed: 300000, priceBasis: 'new', horsepower: 425, torqueNm: 700, realWorldKmPerL: 7.5,
+    transmission: '9-speed automatic', priceAed: 300000, priceBasis: 'new', horsepower: 425, torqueNm: 700, curbWeightKg: 2700, realWorldKmPerL: 7.5,
     duneScore: 8.5, maintenanceScore: 7.5, overallScore: 8.5, estimated: true, source: 'https://example.com/spec-sheet', notes: '', replace: false,
   }
   const csv = [

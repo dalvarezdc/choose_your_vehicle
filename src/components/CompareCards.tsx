@@ -1,5 +1,5 @@
 import type { Vehicle } from '../data/types'
-import { METRICS, PALETTE, bestValue, genRange } from '../lib/metrics'
+import { DRIVE_HINT, DRIVE_LABEL, METRICS, PALETTE, bestValue, genRange } from '../lib/metrics'
 
 interface Props {
   selected: Vehicle[]
@@ -37,6 +37,9 @@ export function CompareCards({ selected, onRemove }: Props) {
               <small>overall</small>
             </div>
             <div className="tags">
+              {(v.drivetrain === '4WD' || v.drivetrain === 'AWD') && (
+                <span className={`tag drive d${v.drivetrain}`} title={DRIVE_HINT[v.drivetrain]}>{DRIVE_LABEL[v.drivetrain]}</span>
+              )}
               <span className={`tag ${v.priceBasis}`}>{v.priceBasis === 'new' ? 'New price' : 'Used price today'}</span>
               {v.estimated ? <span className="tag est" title="UAE ballpark estimate, not a verified quote">Estimated</span> : <span className="tag ok">Verified</span>}
             </div>

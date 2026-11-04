@@ -14,7 +14,7 @@ export const chery: BrandData = {
           yearStart: 2022,
           yearEnd: null,
           variants: [
-            { year: 2024, trim: '2.0T AWD', engine: '2.0L turbo I4', fuel: 'petrol', drivetrain: 'AWD', transmission: '7-speed DCT', priceAed: 105000, priceBasis: 'new', horsepower: 254, torqueNm: 390, realWorldKmPerL: 9.0, duneScore: 3.5, maintenanceScore: 6.0, overallScore: 5.6 },
+            { year: 2024, trim: '2.0T AWD', engine: '2.0L turbo I4', fuel: 'petrol', drivetrain: 'AWD', transmission: '7-speed DCT', priceAed: 105000, priceBasis: 'new', horsepower: 254, torqueNm: 390, curbWeightKg: 1750, realWorldKmPerL: 9.0, duneScore: 3.5, maintenanceScore: 6.0, overallScore: 5.6 },
           ],
         },
       ],
@@ -28,7 +28,7 @@ export const chery: BrandData = {
           yearStart: 2024,
           yearEnd: null,
           variants: [
-            { year: 2025, trim: '2.0T AWD', engine: '2.0L turbo I4', fuel: 'petrol', drivetrain: 'AWD', transmission: '7-speed DCT', priceAed: 125000, priceBasis: 'new', horsepower: 254, torqueNm: 390, realWorldKmPerL: 8.8, duneScore: 3.5, maintenanceScore: 6.0, overallScore: 5.8, notes: 'UAE petrol 4WD listings ~AED 120–140k.' },
+            { year: 2025, trim: '2.0T AWD', engine: '2.0L turbo I4', fuel: 'petrol', drivetrain: 'AWD', transmission: '7-speed DCT', priceAed: 125000, priceBasis: 'new', horsepower: 254, torqueNm: 390, curbWeightKg: 1850, realWorldKmPerL: 8.8, duneScore: 3.5, maintenanceScore: 6.0, overallScore: 5.8, notes: 'UAE petrol 4WD listings ~AED 120–140k.' },
           ],
         },
       ],

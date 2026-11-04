@@ -1,5 +1,5 @@
 import type { Vehicle } from '../data/types'
-import { METRICS, bestValue, type NumericKey } from '../lib/metrics'
+import { DRIVE_HINT, DRIVE_LABEL, METRICS, bestValue, type NumericKey } from '../lib/metrics'
 
 export type SortKey = NumericKey | 'name' | 'year'
 export interface SortState {
@@ -40,6 +40,7 @@ export function VehicleTable({ vehicles, selectedIds, onToggle, sort, onSort, ma
                 <button className="th-btn" onClick={() => onSort('year')}>Year {arrow('year')}</button>
               </th>
               <th>Fuel</th>
+              <th>Drive</th>
               {METRICS.map((m) => (
                 <th key={m.key} className="num" aria-sort={ariaSort(m.key)}>
                   <button className="th-btn" onClick={() => onSort(m.key)} title={m.label}>
@@ -75,6 +76,9 @@ export function VehicleTable({ vehicles, selectedIds, onToggle, sort, onSort, ma
                   <td>
                     <span className={`fuel ${v.fuel}`}>{v.fuel}</span>
                   </td>
+                  <td>
+                    <span className={`drive d${v.drivetrain}`} title={DRIVE_HINT[v.drivetrain]}>{DRIVE_LABEL[v.drivetrain]}</span>
+                  </td>
                   {METRICS.map((m) => (
                     <td key={m.key} className={`num ${best[m.key] === v[m.key] ? 'best' : ''}`}>
                       {m.key === 'priceAed' ? (
@@ -82,6 +86,8 @@ export function VehicleTable({ vehicles, selectedIds, onToggle, sort, onSort, ma
                           {v.priceAed.toLocaleString('en-AE')}
                           {v.priceBasis === 'used' && <span className="used" title="Used-market price today">u</span>}
                         </>
+                      ) : m.key === 'curbWeightKg' ? (
+                        v.curbWeightKg.toLocaleString('en-AE')
                       ) : m.key.endsWith('Score') || m.key === 'realWorldKmPerL' ? (
                         v[m.key].toFixed(1)
                       ) : (
@@ -94,7 +100,7 @@ export function VehicleTable({ vehicles, selectedIds, onToggle, sort, onSort, ma
             })}
             {vehicles.length === 0 && (
               <tr>
-                <td colSpan={METRICS.length + 4} className="empty">No variants match the filters.</td>
+                <td colSpan={METRICS.length + 5} className="empty">No variants match the filters.</td>
               </tr>
             )}
           </tbody>

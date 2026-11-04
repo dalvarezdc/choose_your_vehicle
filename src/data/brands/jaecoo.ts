@@ -15,7 +15,7 @@ export const jaecoo: BrandData = {
           yearStart: 2024,
           yearEnd: null,
           variants: [
-            { year: 2025, trim: 'Flagship AWD', engine: '1.6L turbo I4', fuel: 'petrol', drivetrain: 'AWD', transmission: '7-speed DCT', priceAed: 102900, priceBasis: 'new', horsepower: 197, torqueNm: 290, realWorldKmPerL: 10.0, duneScore: 3.0, maintenanceScore: 6.0, overallScore: 5.4, notes: 'Sand mode; FWD trims from AED 82,900.', source: 'UAE price: thedubaijournal.net / omodajaecoo-dubai.ae' },
+            { year: 2025, trim: 'Flagship AWD', engine: '1.6L turbo I4', fuel: 'petrol', drivetrain: 'AWD', transmission: '7-speed DCT', priceAed: 102900, priceBasis: 'new', horsepower: 197, torqueNm: 290, curbWeightKg: 1650, realWorldKmPerL: 10.0, duneScore: 3.0, maintenanceScore: 6.0, overallScore: 5.4, notes: 'Sand mode; FWD trims from AED 82,900.', source: 'UAE price: thedubaijournal.net / omodajaecoo-dubai.ae' },
           ],
         },
       ],
@@ -29,7 +29,7 @@ export const jaecoo: BrandData = {
           yearStart: 2024,
           yearEnd: null,
           variants: [
-            { year: 2025, trim: '2.0T AWD', engine: '2.0L turbo I4', fuel: 'petrol', drivetrain: 'AWD', transmission: '7-speed DCT', priceAed: 125000, priceBasis: 'new', horsepower: 254, torqueNm: 390, realWorldKmPerL: 9.0, duneScore: 3.5, maintenanceScore: 6.0, overallScore: 5.7, notes: '7-seater; UAE from AED 121,900.' },
+            { year: 2025, trim: '2.0T AWD', engine: '2.0L turbo I4', fuel: 'petrol', drivetrain: 'AWD', transmission: '7-speed DCT', priceAed: 125000, priceBasis: 'new', horsepower: 254, torqueNm: 390, curbWeightKg: 1900, realWorldKmPerL: 9.0, duneScore: 3.5, maintenanceScore: 6.0, overallScore: 5.7, notes: '7-seater; UAE from AED 121,900.' },
           ],
         },
       ],

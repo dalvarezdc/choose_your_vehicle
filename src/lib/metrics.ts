@@ -1,9 +1,10 @@
-import type { Vehicle } from '../data/types'
+import type { Drivetrain, Vehicle } from '../data/types'
 
 export type NumericKey =
   | 'priceAed'
   | 'horsepower'
   | 'torqueNm'
+  | 'curbWeightKg'
   | 'realWorldKmPerL'
   | 'duneScore'
   | 'maintenanceScore'
@@ -25,6 +26,7 @@ export const METRICS: Metric[] = [
   { key: 'priceAed', label: 'Price', short: 'Price', unit: 'AED', higherIsBetter: false, format: (v) => `AED ${aed.format(v)}` },
   { key: 'horsepower', label: 'Horsepower', short: 'HP', unit: 'hp', higherIsBetter: true, format: (v) => `${v} hp` },
   { key: 'torqueNm', label: 'Torque', short: 'Torque', unit: 'Nm', higherIsBetter: true, format: (v) => `${v} Nm` },
+  { key: 'curbWeightKg', label: 'Curb weight', short: 'Weight kg', unit: 'kg', higherIsBetter: false, format: (v) => `${aed.format(v)} kg` },
   { key: 'realWorldKmPerL', label: 'Real-world economy (UAE)', short: 'km/L', unit: 'km/L', higherIsBetter: true, format: (v) => `${v.toFixed(1)} km/L` },
   { key: 'duneScore', label: 'Dune score', short: 'Dunes', unit: '/10', higherIsBetter: true, format: (v) => v.toFixed(1) },
   { key: 'maintenanceScore', label: 'Maintenance score', short: 'Maint.', unit: '/10', higherIsBetter: true, format: (v) => v.toFixed(1) },
@@ -44,6 +46,16 @@ export function bestValue(list: Vehicle[], key: NumericKey): number | undefined 
   if (list.length === 0) return undefined
   const values = list.map((v) => v[key])
   return metricByKey[key].higherIsBetter ? Math.max(...values) : Math.min(...values)
+}
+
+/** Drivetrain tags/filters. Derived from `drivetrain` only: 4x4 means a low-range 4WD, AWD is shown separately. */
+export const DRIVETRAINS: Drivetrain[] = ['4WD', 'AWD', 'RWD', 'FWD']
+export const DRIVE_LABEL: Record<Drivetrain, string> = { '4WD': '4x4', AWD: 'AWD', RWD: 'RWD', FWD: 'FWD' }
+export const DRIVE_HINT: Record<Drivetrain, string> = {
+  '4WD': '4WD with a low-range transfer case (part-time or full-time)',
+  AWD: 'On-demand / road all-wheel drive, no low range',
+  RWD: 'Rear-wheel drive only',
+  FWD: 'Front-wheel drive only',
 }
 
 export const PALETTE = ['#f97316', '#38bdf8', '#a78bfa', '#34d399', '#f472b6', '#facc15']

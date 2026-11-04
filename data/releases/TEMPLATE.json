@@ -18,6 +18,7 @@
       "priceBasis": "new",
       "horsepower": 425,
       "torqueNm": 700,
+      "curbWeightKg": 2700,
       "realWorldKmPerL": 7.5,
       "duneScore": 8.5,
       "maintenanceScore": 7.5,

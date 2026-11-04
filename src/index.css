@@ -196,6 +196,10 @@ select:focus { border-color: var(--accent); }
 .fuel.hybrid { color: var(--good); }
 .fuel.diesel { color: #38bdf8; }
 .fuel.electric { color: #a78bfa; }
+.drive { font-size: 11px; padding: 1px 8px; border-radius: 999px; border: 1px solid var(--border); color: var(--muted); white-space: nowrap; cursor: help; }
+.drive.d4WD { color: var(--accent); border-color: color-mix(in srgb, var(--accent) 45%, transparent); font-weight: 600; }
+.drive.dAWD { color: var(--text); }
+.tag.drive { padding: 2px 8px; }
 
 .inline-controls { display: flex; gap: 8px; flex-wrap: wrap; }
 .inline-controls select { padding: 5px 8px; font-size: 13px; }

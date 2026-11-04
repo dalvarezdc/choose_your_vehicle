@@ -9,6 +9,10 @@
  */
 
 export type Fuel = 'petrol' | 'diesel' | 'hybrid' | 'electric'
+/**
+ * `4WD` = real 4x4: part-time or full-time with a low-range transfer case (Patrol, Land Cruiser, Wrangler…).
+ * `AWD` = on-demand / road all-wheel drive, no low range (crossovers, Cayenne, Tesla, Jetour T2 "XWD").
+ */
 export type Drivetrain = '4WD' | 'AWD' | 'RWD' | 'FWD'
 export type BodyType = 'SUV' | 'Pickup'
 /** `new` = dealer price when that model year was on sale new; `used` = today's UAE used-market ballpark. */
@@ -27,6 +31,8 @@ export interface VariantInput {
   priceBasis: PriceBasis
   horsepower: number
   torqueNm: number
+  /** Curb (kerb) weight in kg, GCC spec where known. Covered by `estimated` like every other figure. */
+  curbWeightKg: number
   /** Mixed UAE driving, A/C on. Electric: petrol-energy equivalent (8.9 kWh = 1 L). Plug-in hybrid: charge-sustaining. */
   realWorldKmPerL: number
   /** 0–10, higher is better. */
@@ -86,6 +92,7 @@ export interface Vehicle {
   priceBasis: PriceBasis
   horsepower: number
   torqueNm: number
+  curbWeightKg: number
   realWorldKmPerL: number
   duneScore: number
   maintenanceScore: number

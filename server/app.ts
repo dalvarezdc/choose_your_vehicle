@@ -34,7 +34,7 @@ export function createApi(repo: VehicleRepo): Hono {
         'GET /api/models?brand=': 'model families -> generations -> available years',
         'GET /api/models/:familySlug': 'one family with every year/trim variant (oldest first)',
         'GET /api/years': 'model years with variant counts',
-        'GET /api/variants': 'filter: brand, family, generation, year, yearFrom, yearTo, fuel, drivetrain, bodyType, priceMax, minDune, q; sort, order, limit, offset',
+        'GET /api/variants': 'filter: brand, family, generation, year, yearFrom, yearTo, fuel, drivetrain (4WD = low-range 4x4, AWD, RWD, FWD), bodyType, priceMax, minDune, q; sort, order, limit, offset',
         'GET /api/variants/:id': 'one variant (flattened)',
         'GET /api/variants/:id/raw': 'the raw `variants` table row',
       },

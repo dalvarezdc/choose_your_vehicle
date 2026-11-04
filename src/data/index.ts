@@ -115,7 +115,7 @@ export function flattenCatalog(brands: BrandData[]): Vehicle[] {
             problems.push(`${where} year ${v.year} outside generation ${g.code} (${g.yearStart}–${g.yearEnd ?? 'now'})`)
           for (const k of ['duneScore', 'maintenanceScore', 'overallScore'] as const)
             if (v[k] < 0 || v[k] > 10) problems.push(`${where} ${k} must be 0–10`)
-          for (const k of ['priceAed', 'horsepower', 'torqueNm', 'realWorldKmPerL'] as const)
+          for (const k of ['priceAed', 'horsepower', 'torqueNm', 'curbWeightKg', 'realWorldKmPerL'] as const)
             if (!(v[k] > 0)) problems.push(`${where} ${k} must be > 0`)
           // Runtime checks too: release batches come from CSV/JSON, not the type checker.
           if (!FUELS.includes(v.fuel)) problems.push(`${where} fuel "${v.fuel}" must be one of ${FUELS.join(', ')}`)
@@ -144,6 +144,7 @@ export function flattenCatalog(brands: BrandData[]): Vehicle[] {
             priceBasis: v.priceBasis,
             horsepower: v.horsepower,
             torqueNm: v.torqueNm,
+            curbWeightKg: v.curbWeightKg,
             realWorldKmPerL: v.realWorldKmPerL,
             duneScore: v.duneScore,
             maintenanceScore: v.maintenanceScore,

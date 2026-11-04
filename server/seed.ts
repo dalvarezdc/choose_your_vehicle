@@ -17,8 +17,8 @@ export function seed(db: Db): { brands: number; families: number; generations: n
     const insGen = db.prepare('INSERT INTO generations (family_id, code, year_start, year_end) VALUES (?, ?, ?, ?) RETURNING id')
     const insVariant = db.prepare(`INSERT INTO variants (
       id, generation_id, model_year, trim, engine, fuel, drivetrain, transmission, price_aed, price_basis,
-      horsepower, torque_nm, km_per_l, dune_score, maintenance_score, overall_score, estimated, source, notes
-    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
+      horsepower, torque_nm, curb_weight_kg, km_per_l, dune_score, maintenance_score, overall_score, estimated, source, notes
+    ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)`)
     const count = { brands: 0, families: 0, generations: 0, variants: 0 }
     // Flattened ids are computed once in src/data so the DB and the static fallback agree.
     const byKey = new Map(vehicles.map((v) => [`${v.familySlug}|${v.generation}|${v.year}|${v.trim}`, v.id]))
@@ -37,7 +37,7 @@ export function seed(db: Db): { brands: number; families: number; generations: n
             insVariant.run(
               byKey.get(`${familySlug}|${g.code}|${v.year}|${v.trim}`)!,
               genId, v.year, v.trim, v.engine, v.fuel, v.drivetrain, v.transmission ?? null, v.priceAed, v.priceBasis,
-              v.horsepower, v.torqueNm, v.realWorldKmPerL, v.duneScore, v.maintenanceScore, v.overallScore,
+              v.horsepower, v.torqueNm, v.curbWeightKg, v.realWorldKmPerL, v.duneScore, v.maintenanceScore, v.overallScore,
               v.estimated === false ? 0 : 1, v.source ?? null, v.notes ?? null,
             )
             count.variants++
